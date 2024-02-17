@@ -11,6 +11,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
+      - ./docker/init-mysql:/docker-entrypoint-initdb.d/:ro
       - mysql-data:/var/lib/mysql
     restart: unless-stopped
 
@@ -19,12 +20,14 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: '-rabbitmq_stream advertised_host localhost'
     ports:
+      - "5552:5552"
       - "5672:5672"
       - "15672:15672"
     volumes:
-      - ./init/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
-      - ./init/definitions.json:/etc/rabbitmq/definitions.json:ro
+      - ./docker/init-rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./docker/init-rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
       - rabbitmq-data:/var/lib/rabbitmq
     restart: unless-stopped
 

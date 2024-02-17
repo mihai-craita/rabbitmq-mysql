@@ -1,0 +1,6 @@
+CREATE TABLE messages (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `content` TEXT NOT NULL,
+    `creation_time`     DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `modification_time` DATETIME ON UPDATE CURRENT_TIMESTAMP
+);
